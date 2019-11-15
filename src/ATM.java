@@ -7,6 +7,9 @@ public class ATM {
     private BankAccount activeAccount;
     private Bank bank;
     
+    private int FIRST_NAME_WIDTH = 100;
+    private int LAST_NAME_WIDTH = 100;
+    
     ////////////////////////////////////////////////////////////////////////////
     //                                                                        //
     // Refer to the Simple ATM tutorial to fill in the details of this class. //
