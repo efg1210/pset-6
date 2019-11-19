@@ -6,13 +6,18 @@ public class BankAccount {
     private long accountNo;
     private double balance;
     private User accountHolder;
-    
-    private static long prevAccountNo = 100000000L;
-	
-	public BankAccount(int pin, User accountHolder) {
+    	
+	public BankAccount(int pin, long accountNum, User accountHolder) {
 		this.pin = pin;
-		this.accountNo = ++BankAccount.prevAccountNo;
+		this.accountNo = accountNum;
 		this.balance = 0.0;
+		this.accountHolder = accountHolder;
+	}
+	
+	public BankAccount(int pin, long accountNum, double balance, User accountHolder) {
+		this.pin = pin;
+		this.accountNo = accountNum;
+		this.balance = balance;
 		this.accountHolder = accountHolder;
 	}
 	
@@ -50,7 +55,7 @@ public class BankAccount {
 	    } else if (amount > balance) {
 	        return ATM.INSUFFICIENT;
 	    } else {
-	        balance = balance - amount;
+	        balance -= amount;
 	    }
 	    
 	    return ATM.SUCCESS;
