@@ -5,7 +5,7 @@ public class ATM {
     
     private Scanner in;
     private BankAccount activeAccount;
-    private Bank bank = new Bank();
+    private Bank bank;
     
     public final int FIRST_NAME_WIDTH = 20;
     public final int LAST_NAME_WIDTH = 30;
