@@ -117,10 +117,16 @@ public class ATM {
     	double transferAmount = in.nextDouble();
     	
     	BankAccount receivingBankAccount = bank.getAccount(transferAccountNo);
-    	receivingBankAccount.deposit(transferAmount);
+    	
+    	String originalActiveBalance = activeAccount.getBalance();
     	activeAccount.withdraw(transferAmount);
     	
-    	System.out.println("\nTransfer accepted.");
+    	if (originalActiveBalance.equals(String.valueOf(activeAccount.getBalance() + transferAmount))) {
+    		receivingBankAccount.deposit(transferAmount);
+        	System.out.println("\nTransfer accepted.\n");
+    	} else {
+    		System.out.println("\nTransfer rejected due to insufficient funds.\n");
+    	}
     	
     	bank.update(activeAccount);
     	bank.update(receivingBankAccount);
