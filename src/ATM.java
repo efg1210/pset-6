@@ -7,8 +7,8 @@ public class ATM {
     private BankAccount activeAccount;
     private Bank bank;
     
-    public final int FIRST_NAME_WIDTH = 20;
-    public final int LAST_NAME_WIDTH = 30;
+    public static final int FIRST_NAME_WIDTH = 20;
+    public static final int LAST_NAME_WIDTH = 30;
     
     public static final int VIEW = 1;
     public static final int DEPOSIT = 2;
@@ -50,11 +50,11 @@ public class ATM {
         System.out.println("Welcome to the AIT ATM!\n");
         
         while (true) {
+        	long accountNo = enterAccountNo();
+        	
         	System.out.print("PIN        : ");
             int pin = in.nextInt();
         	
-            long accountNo = enterAccountNo();
-	        
 	        if (isValidLogin(accountNo, pin)) {
 	            System.out.println("\nHello, again, " + activeAccount.getAccountHolder().getFirstName() + "!\n");
 	            
@@ -92,7 +92,8 @@ public class ATM {
     }
     
     public boolean isValidLogin(long accountNo, int pin) {
-        return accountNo == activeAccount.getAccountNo() && pin == activeAccount.getPin();
+    	activeAccount = bank.login(accountNo, pin);
+    	return activeAccount != null;
     }
     
     public int getSelection() {
@@ -117,8 +118,13 @@ public class ATM {
     	
     	BankAccount receivingBankAccount = bank.getAccount(transferAccountNo);
     	receivingBankAccount.deposit(transferAmount);
+    	activeAccount.withdraw(transferAmount);
     	
     	System.out.println("Transfer accepted.");
+    	
+    	bank.update(activeAccount);
+    	bank.update(receivingBankAccount);
+    	bank.save();
     }
     
     public void deposit() {
@@ -131,6 +137,9 @@ public class ATM {
         } else if (status == ATM.SUCCESS) {
             System.out.println("\nDeposit accepted.\n");
         }
+        
+        bank.update(activeAccount);
+    	bank.save();
     }
     
     public void withdraw() {
@@ -145,6 +154,9 @@ public class ATM {
         } else if (status == ATM.SUCCESS) {
             System.out.println("\nWithdrawal accepted.\n");
         }
+        
+        bank.update(activeAccount);
+    	bank.save();
     }
     
     public void shutdown() {
@@ -169,8 +181,12 @@ public class ATM {
     	
     	BankAccount newAccount = bank.createAccount(pin, newUser);
     	
-    	System.out.println("Thank you. You account number is " + newAccount.getAccountNo() + ".");
-    	System.out.println("Please login to access your newly created account.");
+    	System.out.println("\nThank you. You account number is " + newAccount.getAccountNo() + ".");
+    	System.out.println("Please login to access your newly created account.\n");
+    	System.out.println("Account no: " + newAccount.getAccountNo());
+    	
+    	bank.update(newAccount);
+    	bank.save();
     	return newAccount.getAccountNo();
     }
     
