@@ -13,7 +13,8 @@ public class ATM {
     public static final int VIEW = 1;
     public static final int DEPOSIT = 2;
     public static final int WITHDRAW = 3;
-    public static final int LOGOUT = 4;
+    public static final int TRANSFER = 4;
+    public static final int LOGOUT = 5;
     
     public static final int INVALID = 0;
     public static final int INSUFFICIENT = 1;
@@ -63,6 +64,7 @@ public class ATM {
 	                    case VIEW: showBalance(); break;
 	                    case DEPOSIT: deposit(); break;
 	                    case WITHDRAW: withdraw(); break;
+	                    case TRANSFER: transfer(); break;
 	                    case LOGOUT: validLogin = false; break;
 	                    default: System.out.println("\nInvalid selection.\n"); break;
 	                }
@@ -97,13 +99,26 @@ public class ATM {
         System.out.println("[1] View balance");
         System.out.println("[2] Deposit money");
         System.out.println("[3] Withdraw money");
-        System.out.println("[4] Logout");
+        System.out.println("[4] Transfer money");
+        System.out.println("[5] Logout");
         
         return in.nextInt();
     }
     
     public void showBalance() {
         System.out.println("\nCurrent balance: " + activeAccount.getBalance() + "\n");
+    }
+    
+    public void transfer() {
+    	System.out.print("Enter account: ");
+    	long transferAccountNo = in.nextLong();
+    	System.out.print("Enter amount: ");
+    	double transferAmount = in.nextDouble();
+    	
+    	BankAccount receivingBankAccount = bank.getAccount(transferAccountNo);
+    	receivingBankAccount.deposit(transferAmount);
+    	
+    	System.out.println("Transfer accepted.");
     }
     
     public void deposit() {
