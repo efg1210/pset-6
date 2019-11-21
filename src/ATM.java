@@ -120,7 +120,7 @@ public class ATM {
     	receivingBankAccount.deposit(transferAmount);
     	activeAccount.withdraw(transferAmount);
     	
-    	System.out.println("Transfer accepted.");
+    	System.out.println("\nTransfer accepted.");
     	
     	bank.update(activeAccount);
     	bank.update(receivingBankAccount);
