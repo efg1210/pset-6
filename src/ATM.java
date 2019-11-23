@@ -139,7 +139,11 @@ public class ATM {
         
         int status = activeAccount.deposit(amount);
         if (status == ATM.INVALID) {
-            System.out.println("\nDeposit rejected. Amount must be greater than $0.00.\n");
+            if (activeAccount.getBalanceDouble() > BankAccount.MAX_BALANCE) {
+            	System.out.println("\nDeposit rejected. Account balance too high.\n");
+            } else {
+            	System.out.println("\nDeposit rejected. Amount must be greater than $0.00.\n");
+            }
         } else if (status == ATM.SUCCESS) {
             System.out.println("\nDeposit accepted.\n");
         }
@@ -179,21 +183,12 @@ public class ATM {
     	String firstName = "";
     	do {
     		System.out.print("First name: ");
-//        	System.out.println("Surprise");
-//    		String fNameHolder = in.next();
-//    		if (fNameHolder.length() > 0 && fNameHolder.length() <= ATM.FIRST_NAME_WIDTH) {
-//    			firstName = fNameHolder;
-//    		}
     		firstName = in.next();
     	} while (firstName.length() < 0 || firstName.length() > ATM.FIRST_NAME_WIDTH);
     	
     	String lastName = "";
     	do {
     		System.out.print("Last name: ");
-//    		String lNameHolder = in.next();
-//    		if (lNameHolder.length() > 0 && lNameHolder.length() <= ATM.LAST_NAME_WIDTH) {
-//    			lastName = lNameHolder;
-//    		}
     		lastName = in.next();
     	} while (lastName.length() < 0 || lastName.length() > ATM.LAST_NAME_WIDTH);
     	
@@ -220,6 +215,7 @@ public class ATM {
     }
     
     public static void main(String[] args) {    	
+    	    	
     	ATM atm = new ATM();
     	               
         atm.startup();

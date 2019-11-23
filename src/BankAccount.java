@@ -6,6 +6,8 @@ public class BankAccount {
     private long accountNo;
     private double balance;
     private User accountHolder;
+    
+    public static final double MAX_BALANCE = 999999999999.99;
     	
 	public BankAccount(int pin, long accountNum, User accountHolder) {
 		this.pin = pin;
@@ -39,13 +41,23 @@ public class BankAccount {
 		return accountHolder;
 	}
 	
+	public double getBalanceDouble() {
+		return balance;
+	}
+	
+	private boolean balanceCapNeeded(double amount) {
+		if (getBalanceDouble() + amount > MAX_BALANCE) {
+			return true;
+		}
+		return false;
+	}
+	
 	public int deposit(double amount) {
-		if (amount <= 0) {
+		if (amount <= 0 || balanceCapNeeded(amount)) {
 			return ATM.INVALID;
 		} else {
 			balance += amount;
 		}
-		
 		return ATM.SUCCESS;
 	}
 	
