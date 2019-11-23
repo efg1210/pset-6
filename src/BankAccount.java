@@ -46,7 +46,7 @@ public class BankAccount {
 	}
 	
 	private boolean balanceCapNeeded(double amount) {
-		if (getBalanceDouble() + amount > MAX_BALANCE) {
+		if ((getBalanceDouble() + amount) > MAX_BALANCE) {
 			return true;
 		}
 		return false;
@@ -62,7 +62,7 @@ public class BankAccount {
 	}
 	
 	public int withdraw(double amount) {
-		if (amount < balance) {
+		if (amount <= 0) {
 	        return ATM.INVALID;
 	    } else if (amount > balance) {
 	        return ATM.INSUFFICIENT;

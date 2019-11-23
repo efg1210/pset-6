@@ -117,20 +117,22 @@ public class ATM {
     	double transferAmount = in.nextDouble();
     	
     	BankAccount receivingBankAccount = bank.getAccount(transferAccountNo);
-    	
-    	String originalActiveBalance = activeAccount.getBalance();
-    	activeAccount.withdraw(transferAmount);
-    	
-    	if (originalActiveBalance.equals(String.valueOf(activeAccount.getBalance() + transferAmount))) {
-    		receivingBankAccount.deposit(transferAmount);
-        	System.out.println("\nTransfer accepted.\n");
+    	if (receivingBankAccount == null) {
+    		System.out.println("\nTransfer rejected. Destination account not found.\n4");
     	} else {
-    		System.out.println("\nTransfer rejected due to insufficient funds.\n");
+    		double originalActiveBalance = activeAccount.getBalanceDouble();
+        	activeAccount.withdraw(transferAmount);
+        	if (originalActiveBalance == (activeAccount.getBalanceDouble() + transferAmount)) {
+        		receivingBankAccount.deposit(transferAmount);
+            	System.out.println("\nTransfer accepted.\n");
+        	} else {
+        		System.out.println("\nTransfer rejected due to insufficient funds.\n");
+        	}
+        	
+        	bank.update(activeAccount);
+        	bank.update(receivingBankAccount);
+        	bank.save();
     	}
-    	
-    	bank.update(activeAccount);
-    	bank.update(receivingBankAccount);
-    	bank.save();
     }
     
     public void deposit() {
@@ -140,7 +142,7 @@ public class ATM {
         int status = activeAccount.deposit(amount);
         if (status == ATM.INVALID) {
             if (activeAccount.getBalanceDouble() > BankAccount.MAX_BALANCE) {
-            	System.out.println("\nDeposit rejected. Account balance too high.\n");
+            	System.out.println("\nDeposit rejected. Amount would cause balance to exceed $999,999,999,999.99.\n");
             } else {
             	System.out.println("\nDeposit rejected. Amount must be greater than $0.00.\n");
             }
