@@ -118,7 +118,9 @@ public class ATM {
     	
     	BankAccount receivingBankAccount = bank.getAccount(transferAccountNo);
     	if (receivingBankAccount == null) {
-    		System.out.println("\nTransfer rejected. Destination account not found.\n4");
+    		System.out.println("\nTransfer rejected. Destination account not found.\n");
+    	} else if (receivingBankAccount == activeAccount) {
+    		System.out.println("\nTransfer rejected. Destination account matches origin.\n");
     	} else {
     		double originalActiveBalance = activeAccount.getBalanceDouble();
         	activeAccount.withdraw(transferAmount);
