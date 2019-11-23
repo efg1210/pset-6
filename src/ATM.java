@@ -121,12 +121,20 @@ public class ATM {
     		System.out.println("\nTransfer rejected. Destination account not found.\n");
     	} else if (receivingBankAccount == activeAccount) {
     		System.out.println("\nTransfer rejected. Destination account matches origin.\n");
+    	} else if (transferAmount == 0) {
+    		System.out.println("\nTransfer rejected. Amount must be greater than $0.00.\n");
     	} else {
     		double originalActiveBalance = activeAccount.getBalanceDouble();
         	activeAccount.withdraw(transferAmount);
         	if (originalActiveBalance == (activeAccount.getBalanceDouble() + transferAmount)) {
+        		double originalRecBalance = receivingBankAccount.getBalanceDouble();
         		receivingBankAccount.deposit(transferAmount);
-            	System.out.println("\nTransfer accepted.\n");
+        		if (originalRecBalance == (receivingBankAccount.getBalanceDouble() + transferAmount)) {
+        			System.out.println("\nTransfer accepted.\n");
+        		} else {
+        			System.out.println("\nTransfer rejected. Amount would cause destination balance to exceed $999,999,999,999.99.\n");
+        			activeAccount.deposit(transferAmount);
+        		}
         	} else {
         		System.out.println("\nTransfer rejected due to insufficient funds.\n");
         	}
