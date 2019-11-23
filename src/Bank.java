@@ -30,6 +30,10 @@ public class Bank {
     
     private List<BankAccount> accounts;							// an in-memory list of BankAccount objects
     
+    public List<BankAccount> getAccounts() {
+    	return accounts;
+    }
+    
     /**
      * Constructs a new instance of the Bank class.
      * 
