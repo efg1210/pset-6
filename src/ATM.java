@@ -15,6 +15,7 @@ public class ATM {
     public static final int WITHDRAW = 3;
     public static final int TRANSFER = 4;
     public static final int LOGOUT = 5;
+    public static final int DELETE_ACCOUNT = 6;
     
     public static final int INVALID = 0;
     public static final int INSUFFICIENT = 1;
@@ -47,7 +48,7 @@ public class ATM {
      */
     
     public void startup() {
-        System.out.println("Welcome to the AIT ATM!\n");
+        System.out.println("Welcome to the AIT ATM!");
         
         while (true) {
         	long accountNo = enterAccountNo();
@@ -66,6 +67,7 @@ public class ATM {
 	                    case WITHDRAW: withdraw(); break;
 	                    case TRANSFER: transfer(); break;
 	                    case LOGOUT: validLogin = false; break;
+	                    case DELETE_ACCOUNT: validLogin = deleteAccount(); break;
 	                    default: System.out.println("\nInvalid selection.\n"); break;
 	                }
 	            }
@@ -79,8 +81,23 @@ public class ATM {
         }
     }
     
+    private boolean deleteAccount() {
+    	System.out.print("\nRe-type account number: ");
+    	long accountNo = in.nextLong();
+    	System.out.print("Re-type PIN: ");
+    	int pin = in.nextInt();
+    	if (accountNo == activeAccount.getAccountNo() && pin == activeAccount.getPin()) {
+    		bank.deleteAccount(bank.getIndex(accountNo));
+    		System.out.println("\nAccount successfully deleted. Come again soon!");
+        	bank.save();
+    		return false;
+    	} else {
+    		return true;
+    	}
+    }
+    
     private long enterAccountNo() {
-    	System.out.print("Account No.: ");
+    	System.out.print("\nAccount No.: ");
         String accountNoString = in.next();
         long accountNo = 0;
         if (accountNoString.equals("+")) {
@@ -102,6 +119,7 @@ public class ATM {
         System.out.println("[3] Withdraw money");
         System.out.println("[4] Transfer money");
         System.out.println("[5] Logout");
+        System.out.println("[6] Delete account");
         
         return in.nextInt();
     }

@@ -34,6 +34,14 @@ public class Bank {
     	return accounts;
     }
     
+    public void deleteAccount(int index) {
+    	accounts.remove(index);
+    }
+    
+    public int getIndex(long accountNo) {
+    	return accounts.indexOf(getAccount(accountNo));
+    }
+    
     /**
      * Constructs a new instance of the Bank class.
      * 
