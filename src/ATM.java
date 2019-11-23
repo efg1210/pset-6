@@ -175,15 +175,38 @@ public class ATM {
     }
     
     public long makeAccount() {
-    	System.out.print("First name: ");
-    	String firstName = in.next();
-    	System.out.print("Last name: ");
-    	String lastName = in.next();
+    	
+    	String firstName = "";
+    	do {
+    		System.out.print("First name: ");
+//        	System.out.println("Surprise");
+//    		String fNameHolder = in.next();
+//    		if (fNameHolder.length() > 0 && fNameHolder.length() <= ATM.FIRST_NAME_WIDTH) {
+//    			firstName = fNameHolder;
+//    		}
+    		firstName = in.next();
+    	} while (firstName.length() < 0 || firstName.length() > ATM.FIRST_NAME_WIDTH);
+    	
+    	String lastName = "";
+    	do {
+    		System.out.print("Last name: ");
+//    		String lNameHolder = in.next();
+//    		if (lNameHolder.length() > 0 && lNameHolder.length() <= ATM.LAST_NAME_WIDTH) {
+//    			lastName = lNameHolder;
+//    		}
+    		lastName = in.next();
+    	} while (lastName.length() < 0 || lastName.length() > ATM.LAST_NAME_WIDTH);
     	
     	User newUser = new User(firstName, lastName);
     	
-    	System.out.print("PIN: ");
-    	int pin = in.nextInt();
+    	int pin = 0;
+    	do {
+	    	System.out.print("PIN: ");
+	    	int pinHolder = in.nextInt();
+	    	if (pinHolder >= 1000 && pinHolder <= 9999) {
+	    		pin = pinHolder;
+	    	}
+    	} while (pin < 1000 || pin > 9999);
     	
     	BankAccount newAccount = bank.createAccount(pin, newUser);
     	
