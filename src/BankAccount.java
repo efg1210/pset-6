@@ -62,7 +62,7 @@ public class BankAccount {
 	}
 	
 	public int withdraw(double amount) {
-		if (amount <= balance) {
+		if (amount < balance) {
 	        return ATM.INVALID;
 	    } else if (amount > balance) {
 	        return ATM.INSUFFICIENT;
