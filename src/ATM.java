@@ -1,6 +1,8 @@
 import java.io.IOException;
 import java.util.Scanner;
 
+//import ATM.Status;
+
 public class ATM {
     
     private Scanner in;
@@ -10,12 +12,15 @@ public class ATM {
     public static final int FIRST_NAME_WIDTH = 20;
     public static final int LAST_NAME_WIDTH = 30;
     
-    public static final int VIEW = 1;
-    public static final int DEPOSIT = 2;
-    public static final int WITHDRAW = 3;
-    public static final int TRANSFER = 4;
-    public static final int LOGOUT = 5;
-    public static final int DELETE_ACCOUNT = 6;
+    enum Status {
+    	VIEW,
+    	DEPOSIT,
+    	WITHDRAW,
+    	TRANSFER,
+    	LOGOUT,
+    	DELETE,
+    	S_INVALID;
+    }
     
     public static final int INVALID = 0;
     public static final int INSUFFICIENT = 1;
@@ -67,7 +72,7 @@ public class ATM {
 	                    case WITHDRAW: withdraw(); break;
 	                    case TRANSFER: transfer(); break;
 	                    case LOGOUT: validLogin = false; break;
-	                    case DELETE_ACCOUNT: validLogin = deleteAccount(); break;
+	                    case DELETE: validLogin = deleteAccount(); break;
 	                    default: System.out.println("\nInvalid selection.\n"); break;
 	                }
 	            }
@@ -113,15 +118,23 @@ public class ATM {
     	return activeAccount != null;
     }
     
-    public int getSelection() {
-        System.out.println("[1] View balance");
+    public Status getSelection() {
+    	System.out.println("[1] View balance");
         System.out.println("[2] Deposit money");
         System.out.println("[3] Withdraw money");
         System.out.println("[4] Transfer money");
         System.out.println("[5] Logout");
         System.out.println("[6] Delete account");
         
-        return in.nextInt();
+        switch (in.nextInt()) {
+        	case 1: return Status.VIEW;
+        	case 2: return Status.DEPOSIT;
+        	case 3: return Status.WITHDRAW;
+        	case 4: return Status.TRANSFER;
+        	case 5: return Status.LOGOUT;
+        	case 6: return Status.DELETE;
+        	default: return Status.S_INVALID;
+        }
     }
     
     public void showBalance() {
