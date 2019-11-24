@@ -24,32 +24,6 @@ public class ATM {
     public static final int INSUFFICIENT = 1;
     public static final int SUCCESS = 2;
     
-    ////////////////////////////////////////////////////////////////////////////
-    //                                                                        //
-    // Refer to the Simple ATM tutorial to fill in the details of this class. //
-    // You'll need to implement the new features yourself.                    //
-    //                                                                        //
-    ////////////////////////////////////////////////////////////////////////////
-    
-    /**
-     * Constructs a new instance of the ATM class.
-     */
-    
-    public ATM() {
-        this.in = new Scanner(System.in);
-        
-        try {
-			this.bank = new Bank();
-		} catch (IOException e) {
-			shutdown();
-			// cleanup any resources (i.e., the Scanner) and exit
-		}
-    }
-    
-    /*
-     * Application execution begins here.
-     */
-    
     public void startup() {
         System.out.println("Welcome to the AIT ATM!");
         
@@ -58,6 +32,7 @@ public class ATM {
         	
         	System.out.print("PIN        : ");
             int pin = in.nextInt();
+            in.nextLine();
         	
 	        if (isValidLogin(accountNo, pin)) {
 	            System.out.println("\nHello, again, " + activeAccount.getAccountHolder().getFirstName() + "!\n");
@@ -87,8 +62,10 @@ public class ATM {
     private boolean deleteAccount() {
     	System.out.print("\nRe-type account number: ");
     	long accountNo = in.nextLong();
+    	in.nextLine();
     	System.out.print("Re-type PIN: ");
     	int pin = in.nextInt();
+    	in.nextLine();
     	if (accountNo == activeAccount.getAccountNo() && pin == activeAccount.getPin()) {
     		bank.deleteAccount(bank.getIndex(accountNo));
     		System.out.println("\nAccount successfully deleted. Come again soon!");
@@ -141,10 +118,12 @@ public class ATM {
     }
     
     public void transfer() {
-    	System.out.print("Enter account: ");
+    	System.out.print("\nEnter account: ");
     	long transferAccountNo = in.nextLong();
+    	in.nextLine();
     	System.out.print("Enter amount: ");
     	double transferAmount = in.nextDouble();
+    	in.nextLine();
     	
     	BankAccount receivingBankAccount = bank.getAccount(transferAccountNo);
     	if (receivingBankAccount == null) {
@@ -180,6 +159,7 @@ public class ATM {
     public void deposit() {
         System.out.print("\nEnter amount: ");
         double amount = in.nextDouble();
+        in.nextLine();
         
         int status = activeAccount.deposit(amount);
         if (status == ATM.INVALID) {
@@ -199,6 +179,7 @@ public class ATM {
     public void withdraw() {
         System.out.print("\nEnter amount: ");
         double amount = in.nextDouble();
+        in.nextLine();
         
         int status = activeAccount.withdraw(amount);
         if (status == ATM.INVALID) {
@@ -242,6 +223,7 @@ public class ATM {
         	do {
     	    	System.out.print("PIN: ");
     	    	int pinHolder = in.nextInt();
+    	    	in.nextLine();
     	    	if (pinHolder >= 1000 && pinHolder <= 9999) {
     	    		pin = pinHolder;
     	    	}
@@ -261,6 +243,24 @@ public class ATM {
     		return 0;
     	}
     }
+    
+    /**
+     * Constructs a new instance of the ATM class.
+     */
+    
+    public ATM() {
+        this.in = new Scanner(System.in);
+        
+        try {
+			this.bank = new Bank();
+		} catch (IOException e) {
+			shutdown();
+		}
+    }
+    
+    /*
+     * Application execution begins here.
+     */
     
     public static void main(String[] args) {    	
     	    	
