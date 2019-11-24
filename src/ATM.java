@@ -1,8 +1,6 @@
 import java.io.IOException;
 import java.util.Scanner;
 
-//import ATM.Status;
-
 public class ATM {
     
     private Scanner in;
@@ -80,7 +78,7 @@ public class ATM {
 	        	if (accountNo == -1 && pin == -1) {
 	        		shutdown();
 	        	} else {
-	        		System.out.println("\nInvalid account number and/or PIN.\n");
+	        		System.out.println("\nInvalid account number and/or PIN.");
 	        	}
 	        }
         }
@@ -97,6 +95,7 @@ public class ATM {
         	bank.save();
     		return false;
     	} else {
+    		System.out.println("\nAccount unsuccessfully deleted. Invalid account number and/or PIN.\n");
     		return true;
     	}
     }
@@ -157,10 +156,12 @@ public class ATM {
     	} else {
     		double originalActiveBalance = activeAccount.getBalanceDouble();
         	activeAccount.withdraw(transferAmount);
+        	
         	if (originalActiveBalance == (activeAccount.getBalanceDouble() + transferAmount)) {
         		double originalRecBalance = receivingBankAccount.getBalanceDouble();
         		receivingBankAccount.deposit(transferAmount);
-        		if (originalRecBalance == (receivingBankAccount.getBalanceDouble() + transferAmount)) {
+        		
+        		if (originalRecBalance == (receivingBankAccount.getBalanceDouble() - transferAmount)) {
         			System.out.println("\nTransfer accepted.\n");
         		} else {
         			System.out.println("\nTransfer rejected. Amount would cause destination balance to exceed $999,999,999,999.99.\n");
@@ -225,7 +226,7 @@ public class ATM {
     	if (bank.getAccounts().size() < 899999998) {
     		String firstName = "";
         	do {
-        		System.out.print("First name: ");
+        		System.out.print("\nFirst name: ");
         		firstName = in.next();
         	} while (firstName.length() < 0 || firstName.length() > ATM.FIRST_NAME_WIDTH);
         	
@@ -239,7 +240,7 @@ public class ATM {
         	
         	int pin = 0;
         	do {
-    	    	System.out.print("PIN        : ");
+    	    	System.out.print("PIN: ");
     	    	int pinHolder = in.nextInt();
     	    	if (pinHolder >= 1000 && pinHolder <= 9999) {
     	    		pin = pinHolder;
@@ -250,7 +251,7 @@ public class ATM {
         	
         	System.out.println("\nThank you. You account number is " + newAccount.getAccountNo() + ".");
         	System.out.println("Please login to access your newly created account.\n");
-        	System.out.println("Account no: " + newAccount.getAccountNo());
+        	System.out.println("Account No.: " + newAccount.getAccountNo());
         	
         	bank.update(newAccount);
         	bank.save();
