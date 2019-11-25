@@ -204,7 +204,8 @@ public class ATM {
     }
     
     public long makeAccount() {
-    	if (bank.getAccounts().size() < 899999998) {
+    	BankAccount lastAccount = bank.getAccounts().get(bank.getAccounts().size() - 1);
+    	if (lastAccount.getAccountNo() < 999999999) {
     		String firstName = "";
         	do {
         		System.out.print("\nFirst name: ");
